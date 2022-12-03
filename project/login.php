@@ -10,7 +10,7 @@
 
   DEFINE('DB_USERNAME', 'root');
   DEFINE('DB_PASSWORD', 'root');
-  DEFINE('DB_HOST', 'localhost');
+  DEFINE('DB_HOST', 'localhost:8889');
   DEFINE('DB_DATABASE', 'classicmodels');
 
   $mysqli = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
@@ -19,25 +19,14 @@
     die('Connect Error ('.mysqli_connect_errno().') '.mysqli_connect_error());
   }
 
-  //echo 'Connected successfully.<br>';
+  if(get_included_files()[0] == __FILE__){//similar to python if __name__=__main__ to hid login in confirmation on another pages using login.php
+  echo "Connected successfully
+          <br><a href='AddRemoveEmployee.php'>Click here to change alter employees!</a>
+          <br> file is ".basename(__FILE__);
+  }
+
 
   $mysqli->close();
 
-
-//book method, possibly outdated
-//$chrs = 'utf8mb4'; //Character set, UTF-8 encoding
-//$attr =  "mysql:host=$host:$port;dbname=$data;charset=$chrs";
-//$opts = 
-//[
-//    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, //PHP Data Object as options. A unified API to increase connection security
-//    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-//    PDO::ATTR_EMULATE_PREPARES   => false,
-//];
-
-
-
-//echo "<html><h1>Thank you for logging in.</h1></html>";
 ?>
-
-
 

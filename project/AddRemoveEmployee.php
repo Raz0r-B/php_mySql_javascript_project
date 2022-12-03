@@ -1,7 +1,7 @@
-<?php //Add/Delete employees using prepared statements
+<?php 
 require_once "login.php";
 //if (isset($_POST['delete']) && isset())
-$file = basename(__FILE__);
+
 $conn = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 
 if (mysqli_connect_error()) {
@@ -18,35 +18,19 @@ if (mysqli_connect_error()) {
     isset($_POST['reportsTo'])      &&
     isset($_POST['jobTitle'])
     )
-    {
-    $stmt = $conn->prepare("INSERT INTO employees VALUES (?,?,?,?,?,?,?,?)"); 
-    
-    $stmt->bind_Param("isssssis",$employeeNumber
-                                ,$lastName
-                                ,$firstName
-                                ,$extension
-                                ,$email
-                                ,$officeCode
-                                ,$reportsTo
-                                ,$jobTitle);
+    {$employeeNumber =  get_post($conn,'employeeNumber');
+    $lastName       =  get_post($conn,'lastName');
+    $firstName      =  get_post($conn,'firstName');
+    $extension      =  get_post($conn,'extension');
+    $email          =  get_post($conn,'email');
+    $officeCode     =  get_post($conn,'officeCode');
+    $reportsTo      =  get_post($conn,'reportsTo');
+    $jobTitle       =  get_post($conn,'jobTitle');
 
-
-    $employeeNumber  =  get_post($conn,'employeeNumber');
-    $lastName        =  get_post($conn,'lastName');
-    $firstName       =  get_post($conn,'firstName');
-    $extension       =  get_post($conn,'extension');
-    $email           =  get_post($conn,'email');
-    $officeCode      =  get_post($conn,'officeCode');
-    $reportsTo       =  get_post($conn,'reportsTo');
-    $jobTitle        =  get_post($conn,'jobTitle');
-
-
-        $stmt->execute();
-    
 
     
-    // $query = "INSERT INTO employees VALUES ('$employeeNumber', '$lastName', '$firstName', '$extension', '$email', '$officeCode', '$reportsTo', '$jobTitle')";
-    // $result = $conn->query($query);
+    $query = "INSERT INTO employees VALUES ('$employeeNumber', '$lastName', '$firstName', '$extension', '$email', '$officeCode', '$reportsTo', '$jobTitle')";
+    $result = $conn->query($query);
     }// End new employee if-function
 
 if (isset($_POST['delete']) 
@@ -62,7 +46,7 @@ if (isset($_POST['delete'])
 
 //Create form table for input of new employee
 echo <<<_END
-<form action='$file' method="post"><pre>
+<form action="AddRemoveEmployee.php" method="post"><pre>
     Employee Number     <input type="text" name= "employeeNumber"> 
     First Name          <input type="text" name= "firstName">
     Last Name           <input type="text" name= "lastName">
@@ -101,7 +85,7 @@ while($row = $result->fetch_array()){
             <td>".$row['email']."</td>
             <td>".$row['officeCode']."</td>
             <td>".$row['reportsTo']."</td>
-            <td><form action= '".basename(__FILE__)."' method='post'>
+            <td><form action= 'AddRemoveEmployee.php' method='post'>
                 <input type='hidden' name='delete' value= 'yes'>
                 <input type='hidden' name='employeeNumber', value='".$row['employeeNumber']."'>
                 <input type='submit' value='delete'></form></td>
